@@ -47,12 +47,6 @@ ENTRY(curve25519_neon)
 	vst1.8 {d4-d5},[r6,: 128]!
 	vst1.8 {d4-d5},[r6,: 128]!
 	vst1.8 d4,[r6,: 64]
-	add r6,r3,#0
-	ldr r7,=960
-	sub r7,r7,#2
-	neg r7,r7
-	sub r7,r7,r7,LSL #7
-	str r7,[r6]
 	add r6,sp,#704
 	vld1.8 {d4-d5},[r1]!
 	vld1.8 {d6-d7},[r1]
@@ -215,7 +209,7 @@ ENTRY(curve25519_neon)
 	vst1.8 {d0-d1},[r6,: 128]!
 	vst1.8 {d2-d3},[r6,: 128]!
 	vst1.8 d4,[r6,: 64]
-	.Lmainloop:
+.Lmainloop:
 	mov r2,r5,LSR #3
 	and r6,r5,#7
 	ldrb r2,[r1,r2]
@@ -788,7 +782,7 @@ ENTRY(curve25519_neon)
 	vst1.8 {d2-d3},[r6,: 128]!
 	vst1.8 d12,[r5,: 64]
 	vst1.8 d6,[r6,: 64]
-	add r2,r3,#0
+	adr r2,CONST121666
 	add r4,r3,#240
 	vld1.8 {d0-d1},[r4,: 128]!
 	vld1.8 {d2-d3},[r4,: 128]!
@@ -1557,7 +1551,7 @@ ENTRY(curve25519_neon)
 	vst1.8 {d2-d3},[r2,: 128]!
 	vst1.8 d4,[r2,: 64]
 	ldr r1,=0
-	.Linvertloop:
+.Linvertloop:
 	add r2,r3,#144
 	ldr r4,=0
 	ldr r5,=2
@@ -1602,7 +1596,7 @@ ENTRY(curve25519_neon)
 	vst1.8 d4,[r7,: 64]
 	cmp r5,#0
 	beq .Lskipsquaringloop
-	.Lsquaringloop:
+.Lsquaringloop:
 	add r6,r3,#288
 	add r7,r3,#288
 	add r8,r3,#288
@@ -1793,7 +1787,7 @@ ENTRY(curve25519_neon)
 	vst1.8 d4,[r6,: 64]
 	subs r5,r5,#1
 	bhi .Lsquaringloop
-	.Lskipsquaringloop:
+.Lskipsquaringloop:
 	mov r2,r2
 	add r5,r3,#288
 	add r6,r3,#144
@@ -1992,7 +1986,7 @@ ENTRY(curve25519_neon)
 	vst1.8 {d0-d1},[r4,: 128]!
 	vst1.8 {d2-d3},[r4,: 128]!
 	vst1.8 d4,[r4,: 64]
-	.Lskippostcopy:
+.Lskippostcopy:
 	cmp r1,#1
 	bne .Lskipfinalcopy
 	add r2,r3,#288
@@ -2003,7 +1997,7 @@ ENTRY(curve25519_neon)
 	vst1.8 {d0-d1},[r4,: 128]!
 	vst1.8 {d2-d3},[r4,: 128]!
 	vst1.8 d4,[r4,: 64]
-	.Lskipfinalcopy:
+.Lskipfinalcopy:
 	add r1,r1,#1
 	cmp r1,#12
 	blo .Linvertloop
@@ -2107,4 +2101,13 @@ ENTRY(curve25519_neon)
 	vpop {q4,q5,q6,q7}
 	bx lr
 ENDPROC(curve25519_neon)
+
+.align	4
+CONST121666:
+.long 121666,0,0,0,0,0,0,0,0,0
+
+.align	4
+CONST19193838:
+.long 19,19,38,38
+
 #endif
