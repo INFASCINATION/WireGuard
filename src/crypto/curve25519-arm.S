@@ -40,7 +40,7 @@ ENTRY(curve25519_neon)
 	vst1.8 {d2-d3},[r6,: 128]
 	add r6,sp,#528
 	vst1.8 {d0-d1},[r6,: 128]
-	add r6,sp,#544
+	adr r6,sp,#544
 	vst1.8 {d4-d5},[r6,: 128]
 	add r6,r3,#0
 	vmov.i32 q2,#0
@@ -288,7 +288,7 @@ ENTRY(curve25519_neon)
 	vsub.i32 q0,q1,q3
 	vst1.8 d4,[r4,: 64]
 	vst1.8 d0,[r6,: 64]
-	add r2,sp,#544
+	adr r2,CONST19193838
 	add r4,r3,#96
 	add r5,r3,#144
 	vld1.8 {d0-d1},[r2,: 128]
@@ -1066,7 +1066,7 @@ ENTRY(curve25519_neon)
 	sub r4,r4,#24
 	vst1.8 d0,[r2,: 64]
 	vst1.8 d1,[r4,: 64]
-	add r2,sp,#544
+	adr r2,CONST19193838
 	add r4,r3,#144
 	add r5,r3,#192
 	vld1.8 {d0-d1},[r2,: 128]
